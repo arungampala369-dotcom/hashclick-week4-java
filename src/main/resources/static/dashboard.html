@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Dashboard — Task Manager</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="dashboard-page">
+  <nav class="navbar">
+    <div class="nav-brand">Task Manager</div>
+    <div class="nav-right">
+      <span id="welcomeUser"></span>
+      <span id="roleBadge" class="role-badge" style="display:none"></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+  <div id="notifBanner" class="notif-banner" style="display:none"></div>
+  <div class="dashboard-container">
+    <div class="stats-row">
+      <div class="stat-card"><h3>Total</h3><p id="count-total">0</p></div>
+      <div class="stat-card todo"><h3>To Do</h3><p id="count-todo">0</p></div>
+      <div class="stat-card inprogress"><h3>In Progress</h3><p id="count-inprogress">0</p></div>
+      <div class="stat-card done"><h3>Done</h3><p id="count-done">0</p></div>
+    </div>
+    <div class="card">
+      <h2>Add New Task</h2>
+      <div id="task-error" class="error-msg" style="display:none"></div>
+      <form id="taskForm">
+        <div class="form-row">
+          <div class="form-group"><label>Title *</label><input type="text" id="task-title" placeholder="Task title" required minlength="3"/></div>
+          <div class="form-group"><label>Priority</label>
+            <select id="task-priority"><option value="LOW">Low</option><option value="MEDIUM" selected>Medium</option><option value="HIGH">High</option></select>
+          </div>
+          <div class="form-group"><label>Due Date</label><input type="date" id="task-due"/></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea id="task-desc" rows="2" placeholder="Description (optional)"></textarea></div>
+        <button type="submit" class="btn-primary">Add Task</button>
+      </form>
+    </div>
+    <div class="card">
+      <div class="task-list-header">
+        <h2 id="taskListTitle">My Tasks</h2>
+        <select id="filter-status" onchange="filterTasks()">
+          <option value="ALL">All</option>
+          <option value="TODO">To Do</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="DONE">Done</option>
+        </select>
+      </div>
+      <div id="task-list"></div>
+    </div>
+  </div>
+  <div id="editModal" class="modal" style="display:none">
+    <div class="modal-content">
+      <h2>Edit Task</h2>
+      <input type="hidden" id="edit-id"/>
+      <div class="form-group"><label>Title *</label><input type="text" id="edit-title" required minlength="3"/></div>
+      <div class="form-group"><label>Description</label><textarea id="edit-desc" rows="2"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Status</label>
+          <select id="edit-status"><option value="TODO">To Do</option><option value="IN_PROGRESS">In Progress</option><option value="DONE">Done</option></select>
+        </div>
+        <div class="form-group"><label>Priority</label>
+          <select id="edit-priority"><option value="LOW">Low</option><option value="MEDIUM">Medium</option><option value="HIGH">High</option></select>
+        </div>
+        <div class="form-group"><label>Due Date</label><input type="date" id="edit-due"/></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="saveEdit()">Save</button>
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

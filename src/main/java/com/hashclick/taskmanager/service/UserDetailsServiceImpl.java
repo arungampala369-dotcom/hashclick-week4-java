@@ -1,0 +1,21 @@
+package com.hashclick.taskmanager.service;
+import com.hashclick.taskmanager.model.User;
+import com.hashclick.taskmanager.repository.UserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private final UserRepository repo;
+    public UserDetailsServiceImpl(UserRepository repo) { this.repo = repo; }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = repo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Not found: " + email));
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(),
+                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
+    }
+}
